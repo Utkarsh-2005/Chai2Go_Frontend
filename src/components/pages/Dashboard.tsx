@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import OrderForm from '../OrderForm';
+import Orders from '../Orders';
 
 interface userInfo {
   username: string,
@@ -9,12 +10,23 @@ interface userInfo {
 }
 
 const Home = () => {
+  const [selectedOption, setSelectedOption] = useState('place');
   const [data, setData] = useState<userInfo>({
     username: '',
     password: ''
   });
   const { id } = useParams();
 
+  const renderOption = () => {
+    switch (selectedOption) {
+      case 'place':
+        return <OrderForm username={data.username}/>;
+      case 'view':
+        return <Orders />;
+      default:
+        return null;
+    }
+  };
   useEffect(() => {
     // Retrieve token from localStorage
     const tokenString = localStorage.getItem('token');
@@ -50,12 +62,21 @@ const Home = () => {
           <h2 className='text-2xl text-white'> Invalid Access </h2>
           </div>
           </div>:
-          <div className='flex flex-col items-center h-[100vh]'>
-          <h2 className='m-5'>Welcome {data.username}</h2>
-            <OrderForm/>
+          <>
+          <div className='m-5 mb-10 flex justify-between'>
+            <h2>Welcome {data.username}</h2>
+            <ul className='flex'>
+              <li onClick={() => setSelectedOption('place')} className='m-1 hover:cursor-pointer'>Place Order</li>
+              <li onClick={() => setSelectedOption('view')} className='m-1 hover:cursor-pointer'>View Orders</li>
+            </ul>
           </div>
+          <div className='flex flex-col items-center h-[100vh]'>
+               {renderOption()}
+          </div>
+          </>
           }
         </div>
+  
       )}
     </div>
   );

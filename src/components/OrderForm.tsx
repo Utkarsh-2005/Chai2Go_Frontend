@@ -6,23 +6,25 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 import React, { FormEvent } from 'react';
-import { useEffect } from 'react';
+import QuantityInput from './NumberInput';
+import axios from 'axios';
+import { enqueueSnackbar } from 'notistack';
 
-const OrderForm = () => {
-  const [alignment, setAlignment] = React.useState<string | null>('left');
+interface OrderFormProps {
+  username: string;
+}
+// import { useEffect } from 'react';
+
+const OrderForm : React.FC<OrderFormProps> = ({username}) => {
+  const [alignment, setAlignment] = React.useState<string | null>('');
   const [spiceAlignment, setSpiceAlignment] = React.useState<Array<string>>(() => []);
   const [sugar, setSugar] = React.useState('');
   const [container, setContainer] = React.useState('');
-  // const [multiple, setMultiple] = useState(() => ['github', 'facebook']);
+  const [error, setError] = React.useState(false);
+  const errorRef = React.useRef(null);
+ 
 
-  // const handleAlignment = (
-  //   event: React.MouseEvent<HTMLElement>,
-  //   newAlignment: string | null,
-  // ) => {
-  //   setAlignment(newAlignment);
-  // };
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null,
@@ -30,9 +32,6 @@ const OrderForm = () => {
     setAlignment(newAlignment);
   
   };
-  useEffect(() => {
-    console.log(alignment);
-  }, [alignment]);
   const handlespiceAlignment = (
     event: React.MouseEvent<HTMLElement>,
     newMultiple: string[],
@@ -51,7 +50,32 @@ const OrderForm = () => {
   
   function formSubmitHandler (e:FormEvent<HTMLFormElement>){
     e.preventDefault();
-    console.log("Submitted")
+    if (alignment==="" || sugar==="" || container==="" || alignment===null){
+      if (errorRef.current) {
+        (errorRef.current as HTMLElement).scrollIntoView({ behavior: 'smooth' });
+      }
+      return setError(true)
+    }
+    setError(false)
+    const data = {
+      username: username,
+      base: alignment,
+      spice: JSON.stringify(spiceAlignment),
+      sugar: sugar,
+      container: container
+    }
+    axios
+    .post(`http://localhost:3000/view/${username}`, data)
+    .then(()=> {
+      // setLoading(false);
+      enqueueSnackbar('Order Placed', {variant: 'success'})
+      // navigate('/');
+    })
+    .catch((error) => {
+      // setLoading(false);
+      enqueueSnackbar(error.response.data , {variant: 'error'})
+      console.log(error);
+    })
    }
   return (
     <form className='max-w-[600px] bg-slate-200 rounded-md flex flex-col items-center p-2' onSubmit={formSubmitHandler}>
@@ -89,7 +113,7 @@ const OrderForm = () => {
     >
       <ToggleButton value="ginger" aria-label="ginger">
         <div className='flex flex-col'>
-        <img src="https://files.nccih.nih.gov/ginger-thinkstockphotos-531052216-square.jpg" className='w-[150px] p-0 mb-2 rounded-sm'/>
+        <img src="https://files.nccih.nih.gov/ginger-thinkstockphotos-531052216-square.jpg" className='w-[100px] p-0 mb-2 rounded-sm'/>
         <p>Ginger</p>
         </div>
       </ToggleButton>
@@ -126,7 +150,7 @@ const OrderForm = () => {
           <MenuItem value={'none'}>None</MenuItem>
           <MenuItem value={'low'}>Low</MenuItem>
           <MenuItem value={'medium'}>Medium</MenuItem>
-          <MenuItem value={'high'}>Diabetes</MenuItem>
+          <MenuItem value={'high'}>High</MenuItem>
         </Select>
       </FormControl>
     </Box>
@@ -145,8 +169,13 @@ const OrderForm = () => {
         </Select>
       </FormControl>
     </Box>
+    <div className='flex flex-col items-center mt-[22.5px]'>
+      <label className="text-sm text-gray-600 p-1">Quantity</label>
+    <QuantityInput/>
     </div>
-    <Button variant="contained" type="submit">Submit</Button>
+    </div>
+    <Button variant='contained' type="submit">Submit</Button>
+    {error? <p className='text-red-500' ref={errorRef}>Select all required fields. (*)</p>:<p ref={errorRef} className="invisible">-</p>}
     </form>
   )
 }
