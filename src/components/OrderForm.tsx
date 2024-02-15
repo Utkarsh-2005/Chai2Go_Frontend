@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Button from '@mui/material/Button';
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 import QuantityInput from './NumberInput';
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
@@ -22,8 +22,14 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
   const [sugar, setSugar] = React.useState('');
   const [container, setContainer] = React.useState('');
   const [error, setError] = React.useState(false);
+  const [quantity, setQuantity] = React.useState('1');
   const errorRef = React.useRef(null);
  
+
+  const handleQuantityChange = (value: number | undefined) => {
+    setQuantity(JSON.stringify(value))
+    console.log(quantity)
+  };
 
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
@@ -46,8 +52,9 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
   const handleContainer = (event: SelectChangeEvent) => {
     setContainer(event.target.value as string);
   };
-
-  
+  // const handleQuantityChange = (value: string) => {
+  //   setQuantity(value); 
+  // };
   function formSubmitHandler (e:FormEvent<HTMLFormElement>){
     e.preventDefault();
     if (alignment==="" || sugar==="" || container==="" || alignment===null){
@@ -62,7 +69,8 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
       base: alignment,
       spice: JSON.stringify(spiceAlignment),
       sugar: sugar,
-      container: container
+      container: container,
+      quantity: quantity
     }
     axios
     .post(`http://localhost:3000/view/${username}`, data)
@@ -164,14 +172,14 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
           label="Container"
           onChange={handleContainer}
         >
-          <MenuItem value={'none'}>Kulhad</MenuItem>
-          <MenuItem value={'low'}>Paper Cup</MenuItem>
+          <MenuItem value={'kulhad'}>Kulhad</MenuItem>
+          <MenuItem value={'paper-cup'}>Paper Cup</MenuItem>
         </Select>
       </FormControl>
     </Box>
     <div className='flex flex-col items-center mt-[22.5px]'>
       <label className="text-sm text-gray-600 p-1">Quantity</label>
-    <QuantityInput/>
+      <QuantityInput onChange={handleQuantityChange} />
     </div>
     </div>
     <Button variant='contained' type="submit">Submit</Button>

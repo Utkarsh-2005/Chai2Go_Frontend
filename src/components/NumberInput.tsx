@@ -7,17 +7,23 @@ import { styled } from '@mui/system';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 
+
+interface QuantityInputProps {
+  onChange: (value: number | undefined) => void; // Define onChange prop
+}
+
 const NumberInput = React.forwardRef(function CustomNumberInput(
-  props: NumberInputProps,
+  props: NumberInputProps & QuantityInputProps, 
   ref: React.ForwardedRef<HTMLDivElement>,
 ) {
   const { onChange, ...Otherprops } = props;
   const handleQuantityChange = (
-    event: React.FocusEvent<HTMLInputElement> | React.PointerEvent | React.KeyboardEvent, 
+    event: React.FocusEvent<HTMLInputElement, Element> | React.PointerEvent<Element> | React.KeyboardEvent<Element>, 
     value: number | undefined
   ) => {
-    console.log(value);
+    props.onChange(value)
   };
+  
   
 
   return (
@@ -46,8 +52,11 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
   );
 });
 
-export default function QuantityInput() {
-  return <NumberInput aria-label="Quantity Input" min={1} max={15} />;
+export default function QuantityInput(props: QuantityInputProps) {
+  const handleChange = (value:any) => {
+    props.onChange(value)
+  }
+  return <NumberInput aria-label="Quantity Input" min={1} max={15} defaultValue={1} onChange={handleChange}/>;
 }
 
 const blue = {
