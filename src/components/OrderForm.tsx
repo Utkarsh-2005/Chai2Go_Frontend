@@ -6,10 +6,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Button from '@mui/material/Button';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState} from 'react';
 import QuantityInput from './NumberInput';
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
+import Spinner from './Spinner';
 
 interface OrderFormProps {
   username: string;
@@ -23,6 +24,7 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
   const [container, setContainer] = React.useState('');
   const [error, setError] = React.useState(false);
   const [quantity, setQuantity] = React.useState('1');
+  const [loading, setLoading] = useState(false);
   const errorRef = React.useRef(null);
  
 
@@ -75,18 +77,19 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
     axios
     .post(`http://localhost:3000/view/${username}`, data)
     .then(()=> {
-      // setLoading(false);
+      setLoading(false);
       enqueueSnackbar('Order Placed', {variant: 'success'})
       // navigate('/');
     })
     .catch((error) => {
-      // setLoading(false);
+      setLoading(false);
       enqueueSnackbar(error.response.data , {variant: 'error'})
       console.log(error);
     })
    }
   return (
     <form className='max-w-[600px] bg-slate-200 rounded-md flex flex-col items-center p-2' onSubmit={formSubmitHandler}>
+      {loading ? <Spinner /> : ''}
     <label className='m-2'>What would be the base of your Tea?*</label>
     <ToggleButtonGroup
       value={alignment}

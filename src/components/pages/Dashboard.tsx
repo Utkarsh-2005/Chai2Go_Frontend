@@ -11,6 +11,7 @@ interface userInfo {
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState('place');
+  const [error, setError] = useState(false);
   const [data, setData] = useState<userInfo>({
     username: '',
     password: ''
@@ -22,7 +23,7 @@ const Home = () => {
       case 'place':
         return <OrderForm username={data.username}/>;
       case 'view':
-        return <Orders />;
+        return <Orders username={data.username}/>;
       default:
         return null;
     }
@@ -49,14 +50,15 @@ const Home = () => {
       })
       .catch(error => {
         console.error('Error fetching data:', error);
+        setError(true);
       });}
-  }, []); // Run only once on component mount
+  }, []);
 
   return (
     <div>
       {data && (
         <div>
-          {data.username === ""? 
+          {error? 
           <div className='h-[100vh] flex justify-center items-center bg-black'>
           <div className='p-5 border-4 border-white rounded-md bg-gradient-to-br from-blue-500 to-purple-500 shadow-blue-900 shadow-lg hover:shadow-blue-900 hover:shadow-xl hover:transition-all'>
           <h2 className='text-2xl text-white'> Invalid Access </h2>
@@ -66,8 +68,8 @@ const Home = () => {
           <div className='m-5 mb-10 flex justify-between'>
             <h2>Welcome {data.username}</h2>
             <ul className='flex'>
-              <li onClick={() => setSelectedOption('place')} className='m-1 hover:cursor-pointer'>Place Order</li>
-              <li onClick={() => setSelectedOption('view')} className='m-1 hover:cursor-pointer'>View Orders</li>
+              <li onClick={() => setSelectedOption('place')} className={`m-1 hover:cursor-pointer ${selectedOption==='place'? 'font-bold':''}`}>Place Order</li>
+              <li onClick={() => setSelectedOption('view')} className={`m-1 hover:cursor-pointer ${selectedOption==='view'? 'font-bold':''}`}>View Orders</li>
             </ul>
           </div>
           <div className='flex flex-col items-center h-[100vh]'>
