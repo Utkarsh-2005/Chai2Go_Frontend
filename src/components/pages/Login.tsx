@@ -21,7 +21,10 @@ const Login: React.FC = () => {
         const accessToken = response.data.accessToken;
         localStorage.setItem('token', JSON.stringify(accessToken));
         enqueueSnackbar('Login Successful', { variant: 'success' });
-        navigate(`/home/${values.username}`);
+        if (values.username==="Admin321"){
+           navigate('/admin')
+        }else{
+        navigate(`/home/${values.username}`)};
       } catch (error: any) { // Specify AxiosError type for the error variable
         enqueueSnackbar(error.response?.data || 'An error occurred', { variant: 'error' });
       }

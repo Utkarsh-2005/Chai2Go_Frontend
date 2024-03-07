@@ -3,15 +3,24 @@ import { useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import OrderForm from '../OrderForm';
 import Orders from '../Orders';
+// import { number } from 'yup';
+import SubmitModal from '../SubmitModal';
 
 interface userInfo {
   username: string,
-  password: string
+  password: string,
 }
+
+// interface dashBoardProps {
+//   username: string,
+//   orderno: (data: number) => void
+// }
 
 const Home = () => {
   const [selectedOption, setSelectedOption] = useState('place');
   const [error, setError] = useState(false);
+  const [orderNo, setOrderNo] = useState<number>(0);
+  const [showModal, setShowModal] = useState(false);
   const [data, setData] = useState<userInfo>({
     username: '',
     password: ''
@@ -21,7 +30,21 @@ const Home = () => {
   const renderOption = () => {
     switch (selectedOption) {
       case 'place':
-        return <OrderForm username={data.username}/>;
+        function orderHandler(data: number){
+          setOrderNo(data);
+        }
+
+        function modalHandler(data: boolean){
+          setShowModal(data);
+        }
+
+        function redirectHandler(data: string){
+          setSelectedOption(data);
+        }
+
+        return <>{showModal && (
+          <SubmitModal orderno={orderNo} onClose={() => setShowModal(false)} redirect={redirectHandler}/>
+        )}<OrderForm username={data.username} orderno={orderHandler} showmodal={modalHandler}/></>;
       case 'view':
         return <Orders username={data.username}/>;
       default:
@@ -72,7 +95,7 @@ const Home = () => {
               <li onClick={() => setSelectedOption('view')} className={`m-1 hover:cursor-pointer ${selectedOption==='view'? 'font-bold':''}`}>View Orders</li>
             </ul>
           </div>
-          <div className='flex flex-col items-center h-[100vh]'>
+          <div className='flex flex-col items-center h-[100vh] bg-stone-700'>
                {renderOption()}
           </div>
           </>

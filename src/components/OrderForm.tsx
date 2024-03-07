@@ -6,7 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Button from '@mui/material/Button';
-import React, { FormEvent, useState} from 'react';
+import React, { FormEvent, useEffect, useState} from 'react';
 import QuantityInput from './NumberInput';
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
@@ -14,10 +14,17 @@ import Spinner from './Spinner';
 
 interface OrderFormProps {
   username: string;
+  orderno: (data: number) => void;
+  showmodal: (data: boolean) => void;
+}
+interface OrderNos {
+  orderno: number;
+  _id: string;
+  // other properties
 }
 // import { useEffect } from 'react';
 
-const OrderForm : React.FC<OrderFormProps> = ({username}) => {
+const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) => {
   const [alignment, setAlignment] = React.useState<string | null>('');
   const [spiceAlignment, setSpiceAlignment] = React.useState<Array<string>>(() => []);
   const [sugar, setSugar] = React.useState('');
@@ -25,6 +32,8 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
   const [error, setError] = React.useState(false);
   const [quantity, setQuantity] = React.useState('1');
   const [loading, setLoading] = useState(false);
+  const [orderNos, setOrderNos] = useState<OrderNos[]>([]);
+  const [orderNo, setOrderNo] = useState<number | undefined>(undefined);
   const errorRef = React.useRef(null);
  
 
@@ -57,6 +66,37 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
   // const handleQuantityChange = (value: string) => {
   //   setQuantity(value); 
   // };
+  useEffect(() => {
+    if (orderNo !== undefined) {
+      // If orderNo is updated and is not undefined, proceed with other actions
+      console.log('Received updated orderNo:', orderNo);
+      const data = {
+        username: username,
+        base: alignment,
+        spice: JSON.stringify(spiceAlignment),
+        sugar: sugar,
+        container: container,
+        quantity: quantity,
+        orderno: orderNo
+      }
+      axios
+      .post(`http://localhost:3000/view/${username}`, data)
+      .then(()=> {
+        // showmodal(true);
+        orderno(orderNo);
+        setLoading(false);
+        enqueueSnackbar('Order Placed', {variant: 'success'})
+        showmodal(true);
+        // navigate('/');
+      })
+      .catch((error) => {
+        setLoading(false);
+        enqueueSnackbar(error.response.data , {variant: 'error'})
+        console.log(error);
+      })
+      // You can include any actions you want to perform when orderNo is updated here
+    }
+  }, [orderNo]);
   function formSubmitHandler (e:FormEvent<HTMLFormElement>){
     e.preventDefault();
     if (alignment==="" || sugar==="" || container==="" || alignment===null){
@@ -66,26 +106,92 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
       return setError(true)
     }
     setError(false)
-    const data = {
-      username: username,
-      base: alignment,
-      spice: JSON.stringify(spiceAlignment),
-      sugar: sugar,
-      container: container,
-      quantity: quantity
+    const tokenString = localStorage.getItem('token');
+    // const userString = localStorage.getItem('username');
+    if (tokenString !== null) {
+      // Token is not null, proceed with setting the header
+      const token = JSON.parse(tokenString);
+    // Set token in Axios headers
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    // Make a sample request using the token
+    // axios.get(`http://localhost:3000/ordernos`)
+    //   .then(response => {
+    //     setLoading(false)
+    //     setOrderNos(
+    //       response.data
+    //     )
+    axios.get(`http://localhost:3000/ordernos`)
+    .then(response => {
+      setLoading(false)
+      setOrderNos(
+        response.data
+      )  })
+      .catch(error => {
+        setLoading(false);
+        console.error('Error fetching data:', error);
+      });
+      function orderNoGenerator(): number {
+        let num: number;
+        let unique: boolean;
+    
+        do {
+            num = Math.floor(Math.random() * 9000) + 1000;
+            unique = orderNos.every((order) => order.orderno !== num);
+        } while (!unique);
+    
+        return num;
     }
-    axios
-    .post(`http://localhost:3000/view/${username}`, data)
-    .then(()=> {
-      setLoading(false);
-      enqueueSnackbar('Order Placed', {variant: 'success'})
-      // navigate('/');
-    })
-    .catch((error) => {
-      setLoading(false);
-      enqueueSnackbar(error.response.data , {variant: 'error'})
-      console.log(error);
-    })
+          // console.log(num)
+          setOrderNo(orderNoGenerator())
+  }
+          // const data = {
+          //   username: username,
+          //   base: alignment,
+          //   spice: JSON.stringify(spiceAlignment),
+          //   sugar: sugar,
+          //   container: container,
+          //   quantity: quantity,
+          //   orderno: orderNo
+          // }
+          // axios
+          // .post(`http://localhost:3000/view/${username}`, data)
+          // .then(()=> {
+          //   setLoading(false);
+          //   enqueueSnackbar('Order Placed', {variant: 'success'})
+          //   // navigate('/');
+          // })
+          // .catch((error) => {
+          //   setLoading(false);
+          //   enqueueSnackbar(error.response.data , {variant: 'error'})
+          //   console.log(error);
+          // })
+      //   })
+      // .catch(error => {
+      //   setLoading(false);
+      //   console.error('Error fetching data:', error);
+      // });}
+    // const data = {
+    //   username: username,
+    //   base: alignment,
+    //   spice: JSON.stringify(spiceAlignment),
+    //   sugar: sugar,
+    //   container: container,
+    //   quantity: quantity,
+    //   orderno: orderNo
+    // }
+    // axios
+    // .post(`http://localhost:3000/view/${username}`, data)
+    // .then(()=> {
+    //   setLoading(false);
+    //   enqueueSnackbar('Order Placed', {variant: 'success'})
+    //   // navigate('/');
+    // })
+    // .catch((error) => {
+    //   setLoading(false);
+    //   enqueueSnackbar(error.response.data , {variant: 'error'})
+    //   console.log(error);
+    // })
    }
   return (
     <form className='max-w-[600px] bg-slate-200 rounded-md flex flex-col items-center p-2' onSubmit={formSubmitHandler}>
@@ -189,6 +295,6 @@ const OrderForm : React.FC<OrderFormProps> = ({username}) => {
     {error? <p className='text-red-500' ref={errorRef}>Select all required fields. (*)</p>:<p ref={errorRef} className="invisible">-</p>}
     </form>
   )
-}
+  }
 
 export default OrderForm;

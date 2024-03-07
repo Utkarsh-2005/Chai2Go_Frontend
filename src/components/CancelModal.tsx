@@ -40,8 +40,8 @@ const CancelModal: React.FC<CancelModalProps>  = ({id, orderno, rerender, onClos
              py-5 mb-[80px]'>Are you sure you want to cancel your Order No. {orderno}?</h2>
 
         <div className="flex justify-center">
-        <button type="button" className="focus:outline-none text-white bg-red-800 hover:bg-red-400 font-medium rounded-md text-sm px-5 py-2.5 m-3 max-w-[100px]" onClick={deleteHandler}>Yes</button>
-        <button type="button" className="focus:outline-none text-white bg-green-800 hover:bg-green-400 font-medium rounded-md text-sm px-5 py-2.5 m-3 max-w-[100px]" onClick={onClose}>No</button>
+        <button type="button" className="focus:outline-none text-white bg-red-500 hover:bg-red-800 font-medium rounded-md text-sm px-5 py-2.5 m-3 max-w-[100px]" onClick={deleteHandler}>Yes</button>
+        <button type="button" className="focus:outline-none text-white bg-blue-500 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 m-3 max-w-[100px]" onClick={onClose}>No</button>
         </div>
 
         </div>

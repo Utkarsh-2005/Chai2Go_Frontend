@@ -60,7 +60,7 @@ const Orders : React.FC<OrderProps> = ({username}) => {
     <>
      {loading ===true? <div className="flex justify-center items-center w-full mt-[150px]"><Spinner /></div> : 
       data.length===0? <div className="flex justify-center items-center w-full mt-[150px]"><h2 className="font-semibold text-3xl text-gray-400">Oops! Looks like You Haven't Ordered Yet</h2></div>:
-      <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+      <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 bg-stone-700'>
       {data.map((item) => (
         <OrderCard key={item._id} base={item.base} spice={item.spice} quantity={item.quantity} _id={item._id} username={item.username} sugar={item.sugar} container={item.container} orderno={item.orderno} rerender={setreRender}/>
       ))}
