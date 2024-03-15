@@ -6,6 +6,8 @@ import Spinner from "./Spinner";
 
 interface OrderProps {
   username: string;
+  reload: boolean;
+  reloadUp: (data: boolean) => void;
 }
 
 interface Order {
@@ -20,11 +22,13 @@ interface Order {
 }
 
 
-const Orders : React.FC<OrderProps> = ({username}) => {
+const Orders : React.FC<OrderProps> = ({username, reload, reloadUp}) => {
   const [data, setData] = useState<Order[]>([]);
   const [render, setReRender] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  useEffect(()=> {
+    setReRender(reload);
+  }, [reload])
   useEffect(() => {
     setLoading(true);
     // Retrieve token from localStorage
@@ -50,6 +54,7 @@ const Orders : React.FC<OrderProps> = ({username}) => {
         console.error('Error fetching data:', error);
       });}
       setReRender(false)
+      reloadUp(false);
   }, [render]);
 
   function setreRender(data: boolean){
@@ -58,9 +63,9 @@ const Orders : React.FC<OrderProps> = ({username}) => {
 
   return (
     <>
-     {loading ===true? <div className="flex justify-center items-center w-full mt-[150px]"><Spinner /></div> : 
-      data.length===0? <div className="flex justify-center items-center w-full mt-[150px]"><h2 className="font-semibold text-3xl text-gray-400">Oops! Looks like You Haven't Ordered Yet</h2></div>:
-      <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 bg-stone-700'>
+     {loading ===true? <div className="flex justify-center items-center w-full h-screen"><Spinner /></div> : 
+      data.length===0? <div className="flex justify-center items-center mt-[150px]"><h2 className="font-semibold text-3xl text-gray-400">Oops! Looks like You Haven't Ordered Yet</h2></div>:
+      <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 bg-zinc-300'>
       {data.map((item) => (
         <OrderCard key={item._id} base={item.base} spice={item.spice} quantity={item.quantity} _id={item._id} username={item.username} sugar={item.sugar} container={item.container} orderno={item.orderno} rerender={setreRender}/>
       ))}

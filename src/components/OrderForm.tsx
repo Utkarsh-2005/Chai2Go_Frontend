@@ -54,7 +54,7 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
     newMultiple: string[],
   ) => {
     setSpiceAlignment(newMultiple)
-    console.log(spiceAlignment);
+    // console.log(spiceAlignment);
   };
 
   const handleSugar = (event: SelectChangeEvent) => {
@@ -194,7 +194,7 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
     // })
    }
   return (
-    <form className='max-w-[600px] bg-slate-200 rounded-md flex flex-col items-center p-2' onSubmit={formSubmitHandler}>
+    <form className='h-fit bg-slate-200 rounded-md flex flex-col items-center p-2' onSubmit={formSubmitHandler}>
       {loading ? <Spinner /> : ''}
     <label className='m-2'>What would be the base of your Tea?*</label>
     <ToggleButtonGroup
