@@ -205,19 +205,19 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
     >
       <ToggleButton value="water" aria-label="Water">
         <div className='flex flex-col'>
-        <img src="https://images.unsplash.com/photo-1606214554814-e8a9f97bdbb0?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2xlYW4lMjB3YXRlcnxlbnwwfHwwfHx8MA%3D%3D" className='w-[150px] p-0 mb-2 rounded-sm'/>
+        <img src="/water.jpg" className='w-[150px] p-0 mb-2 rounded-sm'/>
         <p>Water</p>
         </div>
       </ToggleButton>
       <ToggleButton value="skimmed-milk" aria-label="skimmed-milk">
       <div className='flex flex-col'>
-        <img src="https://www.oatmealwithafork.com/wp-content/uploads/2013/09/milk-pour.jpg" className='w-[100px] p-0 mb-2 rounded-sm mx-7'/>
+        <img src="/skimmed.jpg" className='w-[100px] p-0 mb-2 rounded-sm mx-7'/>
         <p>Skimmed Milk</p>
         </div>
       </ToggleButton>
       <ToggleButton value="creamy-milk" aria-label="creamy-milk">
       <div className='flex flex-col'>
-        <img src="https://static.toiimg.com/thumb/msid-73072387,width-1280,height-720,resizemode-4/73072387.jpg" className='w-[120px] p-0 mb-2 rounded-sm'/>
+        <img src="/creamy.jpg" className='w-[120px] p-0 mb-2 rounded-sm'/>
         <p>Creamy Milk</p>
         </div>
       </ToggleButton>
@@ -230,25 +230,25 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
     >
       <ToggleButton value="ginger" aria-label="ginger">
         <div className='flex flex-col'>
-        <img src="https://files.nccih.nih.gov/ginger-thinkstockphotos-531052216-square.jpg" className='w-[100px] p-0 mb-2 rounded-sm'/>
+        <img src="/ginger.jpg" className='w-[100px] p-0 mb-2 rounded-sm'/>
         <p>Ginger</p>
         </div>
       </ToggleButton>
       <ToggleButton value="cinnamon" aria-label="cinnamon">
       <div className='flex flex-col'>
-        <img src="https://www.eatrightbasket.com/wp-content/uploads/2019/03/Cinnamon.jpg" className='w-[100px] p-0 mb-2 rounded-sm mx-7'/>
+        <img src="/cinnamon.jpg" className='w-[100px] p-0 mb-2 rounded-sm mx-7'/>
         <p>Cinnamon</p>
         </div>
       </ToggleButton>
       <ToggleButton value="cardamom" aria-label="cardamom">
       <div className='flex flex-col'>
-        <img src="https://www.keralaspicesonline.com/wp-content/uploads/2022/03/DSC06553-scaled.jpg" className='w-[120px] p-0 mb-2 rounded-sm'/>
+        <img src="/cardamom.jpg" className='w-[120px] p-0 mb-2 rounded-sm'/>
         <p>Cardamom</p>
         </div>
       </ToggleButton>
       <ToggleButton value="cloves" aria-label="cloves">
       <div className='flex flex-col'>
-        <img src="https://spicehillfarms.com/cdn/shop/products/6-_1.png?v=1681373731&width=1946" className='w-[120px] p-0 mb-2 rounded-sm'/>
+        <img src="/cloves.jpg" className='w-[120px] p-0 mb-2 rounded-sm'/>
         <p>Cloves</p>
         </div>
       </ToggleButton>
