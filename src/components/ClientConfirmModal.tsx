@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface ClientConfirmModalProps {
   orderno: number; // Assuming orderno is of type string
   message: string;

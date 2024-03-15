@@ -43,14 +43,14 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
   };
 
   const handleAlignment = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newAlignment: string | null,
   ) => {
     setAlignment(newAlignment);
   
   };
   const handlespiceAlignment = (
-    event: React.MouseEvent<HTMLElement>,
+    _event: React.MouseEvent<HTMLElement>,
     newMultiple: string[],
   ) => {
     setSpiceAlignment(newMultiple)

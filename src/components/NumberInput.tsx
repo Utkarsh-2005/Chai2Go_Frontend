@@ -18,7 +18,7 @@ const NumberInput = React.forwardRef(function CustomNumberInput(
 ) {
   const { onChange, ...Otherprops } = props;
   const handleQuantityChange = (
-    event: React.FocusEvent<HTMLInputElement, Element> | React.PointerEvent<Element> | React.KeyboardEvent<Element>, 
+    _event: React.FocusEvent<HTMLInputElement, Element> | React.PointerEvent<Element> | React.KeyboardEvent<Element>, 
     value: number | undefined
   ) => {
     props.onChange(value)
