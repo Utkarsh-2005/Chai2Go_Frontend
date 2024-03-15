@@ -8,7 +8,7 @@ import Admin from "./components/pages/Admin"
 
 const App = () => {
   return (
-    <Router basename="https://chai2-go-frontend.vercel.app/">
+    <Router>
       <Routes>
         <Route path='/' element={<LandingPage/>}/>
         <Route path='/admin' element={<Admin/>}/>
