@@ -80,7 +80,7 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
         orderno: orderNo
       }
       axios
-      .post(`http://localhost:3000/view/${username}`, data)
+      .post(`https://chai2gobackend-production.up.railway.app/view/${username}`, data)
       .then(()=> {
         // showmodal(true);
         orderno(orderNo);
@@ -121,7 +121,7 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
     //     setOrderNos(
     //       response.data
     //     )
-    axios.get(`http://localhost:3000/ordernos`)
+    axios.get(`https://chai2gobackend-production.up.railway.app/ordernos`)
     .then(response => {
       setLoading(false)
       setOrderNos(

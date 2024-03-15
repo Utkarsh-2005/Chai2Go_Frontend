@@ -36,7 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     // Create a socket connection
-    const newSocket = io('http://localhost:3000'); // Replace with your server URL
+    const newSocket = io('https://chai2gobackend-production.up.railway.app'); // Replace with your server URL
     setSocket(newSocket);
   
     // Clean up the socket connection on component unmount
@@ -116,7 +116,7 @@ const Home = () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     // Make a sample request using the token
-    axios.get(`http://localhost:3000/view/${id}`)
+    axios.get(`https://chai2gobackend-production.up.railway.app/view/${id}`)
       .then(response => {
         setData({
           username: response.data.username,

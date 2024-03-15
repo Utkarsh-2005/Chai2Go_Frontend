@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("http://localhost:3000/login", values);
+        const response = await axios.post("https://chai2gobackend-production.up.railway.app/login", values);
         const accessToken = response.data.accessToken;
         localStorage.setItem('token', JSON.stringify(accessToken));
         enqueueSnackbar('Login Successful', { variant: 'success' });

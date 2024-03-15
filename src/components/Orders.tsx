@@ -41,7 +41,7 @@ const Orders : React.FC<OrderProps> = ({username, reload, reloadUp}) => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     // Make a sample request using the token
-    axios.get(`http://localhost:3000/view/${username}/orders`)
+    axios.get(`https://chai2gobackend-production.up.railway.app/view/${username}/orders`)
       .then(response => {
         setLoading(false)
         setData(
