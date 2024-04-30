@@ -116,7 +116,7 @@ const Home = () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     // Make a sample request using the token
-    axios.get(`https://chai2gobackend-production.up.railway.app/view/${id}`)
+    axios.get(`https://chai2go-backend.onrender.com/view/${id}`)
       .then(response => {
         setData({
           username: response.data.username,
