@@ -17,7 +17,7 @@ const Login: React.FC = () => {
     validationSchema: loginSchema,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("https://chai2gobackend-production.up.railway.app/login", values);
+        const response = await axios.post("https://chai2go-backend.onrender.com/login", values);
         const accessToken = response.data.accessToken;
         localStorage.setItem('token', JSON.stringify(accessToken));
         enqueueSnackbar('Login Successful', { variant: 'success' });
@@ -27,6 +27,7 @@ const Login: React.FC = () => {
         navigate(`/home/${values.username}`)};
       } catch (error: any) { // Specify AxiosError type for the error variable
         enqueueSnackbar(error.response?.data || 'An error occurred', { variant: 'error' });
+        console.log(error)
       }
     },
   });

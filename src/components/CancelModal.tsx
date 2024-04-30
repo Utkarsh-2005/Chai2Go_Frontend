@@ -21,7 +21,7 @@ const CancelModal: React.FC<CancelModalProps>  = ({id, orderno, rerender, onClos
     // Set token in Axios headers
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios
-    .delete(`https://chai2gobackend-production.up.railway.app/view/delete/${id}`)
+    .delete(`https://chai2go-backend.onrender.com/view/delete/${id}`)
     .then(()=> {
       enqueueSnackbar('Order Cancelled successfully', {variant: 'success'})
     })

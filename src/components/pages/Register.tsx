@@ -17,7 +17,7 @@ const Register: React.FC = () => {
     validationSchema: loginSchema, // Use registration schema
     onSubmit: async (values) => {
       try {
-        const response = await axios.post("https://chai2gobackend-production.up.railway.app/register", values);
+        const response = await axios.post("https://chai2go-backend.onrender.com/register", values);
         const accessToken = response.data.accessToken;
         localStorage.setItem('token', JSON.stringify(accessToken));
         enqueueSnackbar('Registration Successful', { variant: 'success' });

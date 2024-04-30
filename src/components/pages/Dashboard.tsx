@@ -36,7 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     // Create a socket connection
-    const newSocket = io('https://chai2gobackend-production.up.railway.app'); // Replace with your server URL
+    const newSocket = io('https://chai2go-backend.onrender.com/'); // Replace with your server URL
     setSocket(newSocket);
   
     // Clean up the socket connection on component unmount

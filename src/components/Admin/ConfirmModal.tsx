@@ -24,13 +24,13 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
       const token = JSON.parse(tokenString);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       axios
-        .delete(`https://chai2gobackend-production.up.railway.app/admin/delete/${id}`)
+        .delete(`https://chai2go-backend.onrender.com/admin/delete/${id}`)
         .then(() => {
           const data = {
             message: inputValue
           }
           axios
-          .post(`https://chai2gobackend-production.up.railway.app/admin/message/${id}`, data)
+          .post(`https://chai2go-backend.onrender.com/admin/message/${id}`, data)
           .then(()=> {
             enqueueSnackbar("Order Confirmed", { variant: "success" });
           }).catch((error) => {
