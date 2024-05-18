@@ -70,7 +70,7 @@ function capitalizeAllWords(str:string) {
       <p>{props.quantity}</p>
     </div>
     <div className="mt-auto flex justify-center"> {/* This div pushes the button to the bottom */}
-      <button type="button" className="focus:outline-none text-white bg-blue-400 hover:bg-blue-800 font-medium rounded-md text-sm px-5 py-2.5 m-3" onClick={() => setShowModal(true)}>Cancel Order</button>
+      <button type="button" className="focus:outline-none text-white bg-blue-800 hover:bg-blue-400 font-medium rounded-md text-sm px-5 py-2.5 m-3" onClick={() => setShowModal(true)}>Cancel Order</button>
     </div>
     {/* <p>{props._id}</p> */}
   </div>
