@@ -32,7 +32,7 @@ function capitalizeAllWords(str:string) {
       {showModal && (
         <CancelModal orderno={props.orderno} id={props._id} onClose={() => setShowModal(false)} rerender={setReRender}/>
       )}
-    <div className="flex flex-col border-[1.5px] border-black m-5 p-2 rounded-lg bg-white h-[270px]">
+    <div className="flex flex-col m-5 p-2 bg-white h-[270px] rounded-lg shadow-lg hover:shadow-lg hover:shadow-sky-200 shadow-slate-500">
     <div className="flex justify-center m-1 mb-3">
       <h2 className="font-bold">Order No. {props.orderno}</h2>
     </div>

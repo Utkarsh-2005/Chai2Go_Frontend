@@ -18,7 +18,7 @@ interface userInfo {
 //   orderno: (data: number) => void
 // }
 
-const Home = () => {
+const Dashboard = () => {
   const [selectedOption, setSelectedOption] = useState('place');
   const [error, setError] = useState(false);
   const [orderNo, setOrderNo] = useState<number>(0);
@@ -132,16 +132,16 @@ const Home = () => {
   }, []);
 
   return (
-    <div className='h-[100vh]'>
+    <div>
       {data && (
-        <div>
+          <>
           {error? 
           <div className='h-[100vh] flex justify-center items-center bg-black'>
           <div className='p-5 border-4 border-white rounded-md bg-gradient-to-br from-blue-500 to-purple-500 shadow-blue-900 shadow-lg hover:shadow-blue-900 hover:shadow-xl hover:transition-all hover:cursor-default'>
           <h2 className='text-2xl text-white'> Invalid Access </h2>
           </div>
           </div>:
-          <div className='h-screen'>
+          <div className='min-h-full'>
           {showClientModal && (
             <ClientConfirmModal orderno={confirmedOrderNo} message={message} onClose={() => setShowClientModal(false)}/>)}
           <div className='m-5 mb-10 flex justify-between bg-white'>
@@ -151,19 +151,19 @@ const Home = () => {
               <li onClick={() => setSelectedOption('view')} className={`m-1 hover:cursor-pointer ${selectedOption==='view'? 'font-bold':''}`}>View Orders</li>
             </ul>
           </div>
-          <div className='h-screen flex justify-center'>
-               {selectedOption==="place"? <>{showModal && (
+          <div className='h-full flex justify-center bg-slate-800'>
+               {selectedOption==="place"? <> {showModal && (
           <SubmitModal orderno={orderNo} onClose={() => setShowModal(false)} redirect={redirectHandler}/>)}
 
-      <OrderForm username={data.username} orderno={orderHandler} showmodal={modalHandler}/></>:
-          selectedOption==="view"?  <Orders username={data.username} reload={render} reloadUp={reloadHandler}/>:""}
-          </div>
-          </div>
-          }
-        </div>
-  
+          <OrderForm username={data.username} orderno={orderHandler} showmodal={modalHandler}/></>:
+          <Orders username={data.username} reload={render} reloadUp={reloadHandler}/>}
+              </div>
+              </div>
+              }
+      
+      </>
       )}
     </div>
   );
 };
-export default Home;
+export default Dashboard;
