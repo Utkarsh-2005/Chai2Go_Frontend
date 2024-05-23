@@ -144,8 +144,8 @@ const Dashboard = () => {
           <div className='min-h-full'>
           {showClientModal && (
             <ClientConfirmModal orderno={confirmedOrderNo} message={message} onClose={() => setShowClientModal(false)}/>)}
-          <div className='m-5 mb-10 flex justify-between bg-white'>
-            <h2>Welcome {data.username}</h2>
+          <div className="p-5 pb-10 flex justify-between text-white bg-gradient-to-b from-black to-slate-900 sm:sticky sm:top-0">
+            <h2 className='m-1'>Welcome {data.username}</h2>
             <ul className='flex'>
               <li onClick={() => setSelectedOption('place')} className={`m-1 hover:cursor-pointer ${selectedOption==='place'? 'font-bold':''}`}>Place Order</li>
               <li onClick={() => setSelectedOption('view')} className={`m-1 hover:cursor-pointer ${selectedOption==='view'? 'font-bold':''}`}>View Orders</li>

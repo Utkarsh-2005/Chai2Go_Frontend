@@ -38,7 +38,7 @@ function capitalizeAllWords(str:string) {
     </div>
     <div className="flex">
       <h2 className='w-[70px] font-semibold'>Base</h2>
-      <div className={`flex justify-center w-[150px] mx-1 border border-black rounded-sm ${props.base==='water'? 'bg-blue-400': props.base==='creamy-milk'? 'bg-orange-100': props.base==='skimmed-milk'? 'bg-stone-300': 'bg-transparent'}`}>
+      <div className={`flex justify-center w-[150px] mx-1 border border-black rounded-sm ${props.base==='water'? 'bg-gradient-to-r from-blue-400 to-slate-800 text-white': props.base==='creamy-milk'? 'bg-gradient-to-r from-orange-200 to-amber-100': props.base==='skimmed-milk'? 'bg-gradient-to-r from-stone-300 to-slate-800 text-white': 'bg-transparent'}`}>
       <h2>{capitalizeAllWords(props.base)}</h2>
       </div>
     </div>

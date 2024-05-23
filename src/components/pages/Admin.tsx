@@ -100,13 +100,13 @@ const Admin = () => {
           </div>
           </div>:loading ===true? <div className="flex justify-center items-center h-screen"><Spinner /></div> :
       data.length===0? <div className="flex justify-center items-center mt-[150px]"><h2 className="font-semibold text-3xl text-gray-400">Oops! Looks like You Haven't Ordered Yet</h2></div>:
-      <>
-      <h1 className="text-center text-3xl m-5">Confirm Orders from here</h1>
+      <div className="bg-slate-800">
+      <h1 className="text-center text-3xl p-5 text-white">Confirm Orders from here</h1>
       <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 bg-zinc-300'>
       {data.map((item) => (
         <OrderViewCard key={item._id} base={item.base} spice={item.spice} quantity={item.quantity} _id={item._id} username={item.username} sugar={item.sugar} container={item.container} orderno={item.orderno} rerender={setreRender}/>
       ))}
-    </div></>}
+    </div></div>}
     </>
   )
 }
