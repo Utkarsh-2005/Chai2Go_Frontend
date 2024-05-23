@@ -132,7 +132,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
+    <div className='hover:cursor-default'>
       {data && (
           <>
           {error? 
