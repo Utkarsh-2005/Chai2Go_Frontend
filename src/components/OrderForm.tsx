@@ -320,7 +320,7 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
     // <Button variant='contained' type="submit">Submit</Button>
     // {error? <p className='text-red-500' ref={errorRef}>Select all required fields. (*)</p>:<p ref={errorRef} className="invisible">-</p>}
     //  </form>
-      <div className="h-screen flex items-center">
+      <div className="h-fit sm:h-screen flex items-center">
        <form className='h-fit rounded-md' onSubmit={formSubmitHandler}>
       {loading ? <Spinner /> : ''}
       <Swiper
