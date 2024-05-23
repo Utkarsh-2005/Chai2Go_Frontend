@@ -6,11 +6,18 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Button from '@mui/material/Button';
-import React, { FormEvent, useEffect, useState} from 'react';
+import React, { FormEvent, useEffect, useState, useRef} from 'react';
 import QuantityInput from './NumberInput';
 import axios from 'axios';
 import { enqueueSnackbar } from 'notistack';
 import Spinner from './Spinner';
+import { Pagination, Navigation} from 'swiper/modules';
+import SwiperCore from 'swiper/core'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/swiper-bundle.css'; 
+import { SwiperRef } from 'swiper/react'; 
+
 
 interface OrderFormProps {
   username: string;
@@ -25,6 +32,17 @@ interface OrderNos {
 // import { useEffect } from 'react';
 
 const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) => {
+  SwiperCore.use([Pagination, Navigation]);
+  const swiperRef = useRef<SwiperRef>(null);
+  useEffect(() => {
+    if (swiperRef.current && swiperRef.current.swiper) {
+      const swiperInstance = swiperRef.current.swiper;
+      
+      // Cast to any to bypass type checking for internal properties
+      (swiperInstance as any).params.touchStartPreventDefault = false;
+      (swiperInstance as any).touchEventsData.formElements = 'undefined';
+    }
+  }, []);
   const [alignment, setAlignment] = React.useState<string | null>('');
   const [spiceAlignment, setSpiceAlignment] = React.useState<Array<string>>(() => []);
   const [sugar, setSugar] = React.useState('');
@@ -88,6 +106,14 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
         enqueueSnackbar('Order Placed', {variant: 'success'})
         showmodal(true);
         // navigate('/');
+        setAlignment('')
+        setSpiceAlignment([])
+        setSugar('')
+        setContainer('')
+        setQuantity('1')
+        if (swiperRef.current && swiperRef.current.swiper) {
+          swiperRef.current.swiper.slideTo(0);  // Navigate to the first slide
+        }
       })
       .catch((error) => {
         setLoading(false);
@@ -194,14 +220,128 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
     // })
    }
   return (
-    <form className='h-fit bg-slate-200 rounded-md flex flex-col items-center p-2' onSubmit={formSubmitHandler}>
+    // <form className='h-fit bg-slate-200 rounded-md flex flex-col items-center p-2' onSubmit={formSubmitHandler}>
+    //   {loading ? <Spinner /> : ''}
+    // <label className='m-2'>What would be the base of your Tea?*</label>
+    // <ToggleButtonGroup
+    //   value={alignment}
+    //   exclusive
+    //   onChange={handleAlignment}
+    //   aria-label="text alignment"
+    // >
+    //   <ToggleButton value="water" aria-label="Water">
+    //     <div className='flex flex-col'>
+    //     <img src="/water.jpg" className='w-[150px] p-0 mb-2 rounded-sm'/>
+    //     <p>Water</p>
+    //     </div>
+    //   </ToggleButton>
+    //   <ToggleButton value="skimmed-milk" aria-label="skimmed-milk">
+    //   <div className='flex flex-col'>
+    //     <img src="/skimmed.jpg" className='w-[100px] p-0 mb-2 rounded-sm mx-7'/>
+    //     <p>Skimmed Milk</p>
+    //     </div>
+    //   </ToggleButton>
+    //   <ToggleButton value="creamy-milk" aria-label="creamy-milk">
+    //   <div className='flex flex-col'>
+    //     <img src="/creamy.jpg" className='w-[120px] p-0 mb-2 rounded-sm'/>
+    //     <p>Creamy Milk</p>
+    //     </div>
+    //   </ToggleButton>
+    // </ToggleButtonGroup>
+    // <label className='m-2 mt-5'>Select Add-ons in your tea (You can select multiple)</label>
+    // <ToggleButtonGroup
+    //   value={spiceAlignment}
+    //   onChange={handlespiceAlignment}
+    //   aria-label="text alignment"
+    // >
+    //   <ToggleButton value="ginger" aria-label="ginger">
+    //     <div className='flex flex-col'>
+    //     <img src="/ginger.jpg" className='w-[100px] p-0 mb-2 rounded-sm'/>
+    //     <p>Ginger</p>
+    //     </div>
+    //   </ToggleButton>
+    //   <ToggleButton value="cinnamon" aria-label="cinnamon">
+    //   <div className='flex flex-col'>
+    //     <img src="/cinnamon.jpg" className='w-[100px] p-0 mb-2 rounded-sm mx-7'/>
+    //     <p>Cinnamon</p>
+    //     </div>
+    //   </ToggleButton>
+    //   <ToggleButton value="cardamom" aria-label="cardamom">
+    //   <div className='flex flex-col'>
+    //     <img src="/cardamom.jpg" className='w-[120px] p-0 mb-2 rounded-sm'/>
+    //     <p>Cardamom</p>
+    //     </div>
+    //   </ToggleButton>
+    //   <ToggleButton value="cloves" aria-label="cloves">
+    //   <div className='flex flex-col'>
+    //     <img src="/cloves.jpg" className='w-[120px] p-0 mb-2 rounded-sm'/>
+    //     <p>Cloves</p>
+    //     </div>
+    //   </ToggleButton>
+    // </ToggleButtonGroup>
+    // <div className='flex'>
+    // <Box sx={{ minWidth: 120 }} className="m-10">
+    //   <FormControl fullWidth>
+    //     <InputLabel id="sugar">Sugar*</InputLabel>
+    //     <Select
+    //       labelId="sugar"
+    //       id="sugar"
+    //       value={sugar}
+    //       label="Sugar"
+    //       onChange={handleSugar}
+    //     >
+    //       <MenuItem value={'none'}>None</MenuItem>
+    //       <MenuItem value={'low'}>Low</MenuItem>
+    //       <MenuItem value={'medium'}>Medium</MenuItem>
+    //       <MenuItem value={'high'}>High</MenuItem>
+    //     </Select>
+    //   </FormControl>
+    // </Box>
+    // <Box sx={{ minWidth: 120 }} className="m-10">
+    //   <FormControl fullWidth>
+    //     <InputLabel id="container">Container*</InputLabel>
+    //     <Select
+    //       labelId="container"
+    //       id="container"
+    //       value={container}
+    //       label="Container"
+    //       onChange={handleContainer}
+    //     >
+    //       <MenuItem value={'kulhad'}>Kulhad</MenuItem>
+    //       <MenuItem value={'paper-cup'}>Paper Cup</MenuItem>
+    //     </Select>
+    //   </FormControl>
+    // </Box>
+    // <div className='flex flex-col items-center mt-[22.5px]'>
+    //   <label className="text-sm text-gray-600 p-1">Quantity</label>
+    //   <QuantityInput onChange={handleQuantityChange} />
+    // </div>
+    // </div>
+    // <Button variant='contained' type="submit">Submit</Button>
+    // {error? <p className='text-red-500' ref={errorRef}>Select all required fields. (*)</p>:<p ref={errorRef} className="invisible">-</p>}
+    //  </form>
+      <div className="h-screen flex items-center">
+       <form className='h-fit rounded-md' onSubmit={formSubmitHandler}>
       {loading ? <Spinner /> : ''}
-    <label className='m-2'>What would be the base of your Tea?*</label>
-    <ToggleButtonGroup
+      <Swiper
+      ref={swiperRef}
+      centeredSlides={true}
+      slidesPerView={1}
+      loop={false}
+      navigation={true}
+      spaceBetween={50}
+      pagination={{ clickable: true }}
+      className='max-w-[1000px] w-screen sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1000px]'
+      touchStartForcePreventDefault={false}>
+      <SwiperSlide className='my-auto p-10 sm:p-2'><div className='flex flex-col bg-white items-center p-5 max-w-[700px] mx-auto justify-center'>
+      <h1 className='text-lg sm:text-3xl mb-10'>Let's begin with your order</h1>
+      <label className='m-2'>What would be the base of your Tea?*</label>
+   <ToggleButtonGroup
       value={alignment}
       exclusive
       onChange={handleAlignment}
       aria-label="text alignment"
+      className="flex sm:flex-row flex-col space-y-4"
     >
       <ToggleButton value="water" aria-label="Water">
         <div className='flex flex-col'>
@@ -221,12 +361,13 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
         <p>Creamy Milk</p>
         </div>
       </ToggleButton>
-    </ToggleButtonGroup>
-    <label className='m-2 mt-5'>Select Add-ons in your tea (You can select multiple)</label>
-    <ToggleButtonGroup
+    </ToggleButtonGroup></div></SwiperSlide>
+    <SwiperSlide className='my-auto p-10 sm:p-2'><div className='flex flex-col bg-white items-center p-5 max-w-[700px] mx-auto my-auto'> <label className='m-2 mt-5'>Select Add-ons in your tea (You can select multiple)</label>
+     <ToggleButtonGroup
       value={spiceAlignment}
       onChange={handlespiceAlignment}
       aria-label="text alignment"
+      className="flex flex-col sm:flex-row space-y-4"
     >
       <ToggleButton value="ginger" aria-label="ginger">
         <div className='flex flex-col'>
@@ -252,12 +393,14 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
         <p>Cloves</p>
         </div>
       </ToggleButton>
-    </ToggleButtonGroup>
-    <div className='flex'>
-    <Box sx={{ minWidth: 120 }} className="m-10">
+    </ToggleButtonGroup></div></SwiperSlide>
+    <SwiperSlide className='my-auto p-10 sm:p-2'><div className=' bg-white p-5 max-w-[700px] mx-auto flex flex-col my-auto items-center'>
+    <label className='m-2 mt-5'>Give us a few more details</label>
+      <div className='flex mb-5 flex-col sm:flex-row'>    
+     <Box sx={{ minWidth: 120 }} className="m-10">
       <FormControl fullWidth>
-        <InputLabel id="sugar">Sugar*</InputLabel>
-        <Select
+         <InputLabel id="sugar">Sugar*</InputLabel>
+         <Select
           labelId="sugar"
           id="sugar"
           value={sugar}
@@ -279,7 +422,7 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
           id="container"
           value={container}
           label="Container"
-          onChange={handleContainer}
+          onChange={handleContainer} 
         >
           <MenuItem value={'kulhad'}>Kulhad</MenuItem>
           <MenuItem value={'paper-cup'}>Paper Cup</MenuItem>
@@ -291,9 +434,13 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
       <QuantityInput onChange={handleQuantityChange} />
     </div>
     </div>
-    <Button variant='contained' type="submit">Submit</Button>
-    {error? <p className='text-red-500' ref={errorRef}>Select all required fields. (*)</p>:<p ref={errorRef} className="invisible">-</p>}
+    
+    <Button variant='contained' type="submit" className='w-[150px]'>Order Now</Button></div>
+   </SwiperSlide>
+    {error? <p className='text-red-500 text-center mb-5' ref={errorRef}>Select all required fields. (*)</p>:<p ref={errorRef} className="invisible">-</p>}
+    </Swiper> 
     </form>
+    </div>
   )
   }
 
