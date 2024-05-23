@@ -396,7 +396,7 @@ const OrderForm : React.FC<OrderFormProps> = ({username, orderno, showmodal}) =>
     </ToggleButtonGroup></div></SwiperSlide>
     <SwiperSlide className='my-auto p-10 sm:p-2'><div className=' bg-white p-5 max-w-[700px] mx-auto flex flex-col my-auto items-center'>
     <label className='m-2 mt-5'>Give us a few more details</label>
-      <div className='flex mb-5 flex-col sm:flex-row'>    
+      <div className='flex sm:mb-5 flex-col sm:flex-row mb-10'>    
      <Box sx={{ minWidth: 120 }} className="m-10">
       <FormControl fullWidth>
          <InputLabel id="sugar">Sugar*</InputLabel>

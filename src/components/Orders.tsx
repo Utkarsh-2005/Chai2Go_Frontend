@@ -60,11 +60,20 @@ const Orders : React.FC<OrderProps> = ({username, reload, reloadUp}) => {
   function setreRender(data: boolean){
     setReRender(data);
   }
+  const [showMessage, setShowMessage] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowMessage(true);
+    }, 500);
+    
+    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+  }, []);
 
   return (
     <>
      {loading ===true? <div className="flex justify-center items-center w-full h-screen"><Spinner /></div> : 
-      data.length===0? <div className="flex justify-center items-center mt-[150px]"><h2 className="font-semibold text-3xl text-gray-400">Oops! Looks like You Haven't Ordered Yet</h2></div>:
+      data.length===0 && showMessage? <div className="flex justify-center items-center mt-[150px]"><h2 className="font-semibold text-3xl text-gray-400">Oops! Looks like You Haven't Ordered Yet</h2></div>:
       <div className='grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
       {data.map((item) => (
         <OrderCard key={item._id} base={item.base} spice={item.spice} quantity={item.quantity} _id={item._id} username={item.username} sugar={item.sugar} container={item.container} orderno={item.orderno} rerender={setreRender}/>
