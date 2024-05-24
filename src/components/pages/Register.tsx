@@ -28,8 +28,8 @@ const Register: React.FC = () => {
   });
 
   return (
-    <div className="min-h-screen bg-black flex justify-center items-center">
-      <div className="bg-gradient-to-b from-slate-200 to-white p-8 rounded-lg  shadow-blue-900 shadow-lg hover:shadow-xl hover:shadow-blue-900 hover:transition-all">
+    <div className="min-h-screen bg-[#1f3145] flex justify-center items-center">
+      <div className="bg-gradient-to-b from-slate-200 to-white p-8 rounded-lg  shadow-cyan-900 shadow-lg hover:shadow-xl hover:shadow-cyan-900 hover:transition-all">
         <h2 className="text-2xl font-semibold mb-4 flex justify-center">Register</h2>
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4">
