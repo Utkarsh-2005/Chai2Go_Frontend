@@ -5,6 +5,7 @@ import { enqueueSnackbar } from "notistack";
 interface ConfirmModalProps {
   orderno: number; // Assuming orderno is of type string
   id: string;
+  username: string;
   onClose: () => void; // Assuming onClose is a function that takes no arguments and returns void
   rerender: (data: boolean) => void;
 }
@@ -12,6 +13,7 @@ interface ConfirmModalProps {
 const ConfirmModal: React.FC<ConfirmModalProps> = ({
   id,
   orderno,
+  username,
   rerender,
   onClose,
 }) => {
@@ -27,7 +29,8 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
         .delete(`https://chai2go-backend.onrender.com/admin/delete/${id}`)
         .then(() => {
           const data = {
-            message: inputValue
+            message: inputValue,
+            username: username
           }
           axios
           .post(`https://chai2go-backend.onrender.com/admin/message/${id}`, data)

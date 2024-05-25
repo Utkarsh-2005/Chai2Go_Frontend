@@ -51,13 +51,14 @@ const Dashboard = () => {
       // console.log('hey')
       // Listen for 'order_confirmed' event from the server
       socket.on('order_confirmed', (orderData) => {
+        if (orderData.username === data.username){
         console.log({orderData});
         setConfirmedOrderNo(orderData.orderno)
         setMessage(orderData.message)
         setShowClientModal(true)
         setRender(true)
         // Update UI or take appropriate action
-      });
+    }});
     }
   }, [socket]);
   
