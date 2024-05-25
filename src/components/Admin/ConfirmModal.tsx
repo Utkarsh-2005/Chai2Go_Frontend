@@ -36,6 +36,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
           .post(`https://chai2go-backend.onrender.com/admin/message/${id}`, data)
           .then(()=> {
             enqueueSnackbar("Order Confirmed", { variant: "success" });
+            console.log(data)
           }).catch((error) => {
             enqueueSnackbar(error.response.data , {variant: 'error'})
             console.log(error);
