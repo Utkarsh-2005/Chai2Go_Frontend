@@ -45,7 +45,6 @@ const Dashboard = () => {
     };
   }, []);
   
-
   useEffect(() => {
     if (socket) {
       // console.log('hey')
@@ -60,11 +59,12 @@ const Dashboard = () => {
         // Update UI or take appropriate action
     }else{
       console.log(orderData.username);
-      console.log(data.username);
+      console.log(data);
     }
   });
     }
-  }, [socket]);
+  }, [data, socket]);
+
   
   // function setReload(data: boolean){
   //   setRender(data);
