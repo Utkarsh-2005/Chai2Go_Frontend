@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
-const passwordRules = /^(?=.*\d)(?=.*[a-z]).{5,}$/;
-const emailRules = /^(?=.*\d)(?=.*[a-z]).{5,}$/;
+const passwordRules = /^(?=.*\d)(?=.*[a-zA-Z]).{5,}$/;
+const emailRules = /^(?=.*\d)(?=.*[a-zA-Z]).{5,}$/;
 // min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit.
 
 export const loginSchema = yup.object().shape({
