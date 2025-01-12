@@ -8,6 +8,7 @@ import Orders from '../Orders';
 import SubmitModal from '../SubmitModal';
 import ClientConfirmModal from '../ClientConfirmModal';
 
+
 interface userInfo {
   username: string,
   password: string,
@@ -26,7 +27,14 @@ const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [showClientModal, setShowClientModal] = useState(false);
   const [render, setRender] = useState(false);
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
+
+  interface Notification {
+    orderno: number;
+    message: string;
+  }
+
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [data, setData] = useState<userInfo>({
     username: '',
     password: ''
@@ -52,15 +60,19 @@ const Dashboard = () => {
       socket.on('order_confirmed', (orderData) => {
         if (orderData.username === data.username){
         console.log({orderData});
-        setConfirmedOrderNo(orderData.orderno)
-        setMessage(orderData.message)
-        setShowClientModal(true)
-        setRender(true)
+        // setConfirmedOrderNo(orderData.orderno)
+        // setMessage(orderData.message)
+        // setShowClientModal(true)
+        // setRender(true)
         // Update UI or take appropriate action
+        fetchNotifications();
     }else{
       console.log(orderData.username);
       console.log(data);
     }
+    return () => {
+      socket?.off('order_confirmed');
+    };
   });
     }
   }, [data, socket]);
@@ -136,6 +148,56 @@ const Dashboard = () => {
       });}
   }, []);
 
+  const fetchNotifications = async () => {
+    const tokenString = localStorage.getItem('token');
+    if (tokenString && data.username) {
+      try {
+        const token = JSON.parse(tokenString);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        const response = await fetch(
+          `https://chai2go-backend.onrender.com/view/notifications/${data.username}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`, // Include auth token
+            },
+          }
+        );
+        const result = await response.json();
+        console.log('Fetched notifications:', result.notifications);
+        setNotifications(result.notifications);
+      } catch (error) {
+        console.error('Error fetching notifications:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchNotifications();
+  }, [data.username]);
+  
+
+  useEffect(() =>{
+    if (notifications.length>0){
+    setConfirmedOrderNo(notifications[0].orderno)
+    setMessage(notifications[0].message)
+    setShowClientModal(true)
+    setRender(true)}
+  }, [notifications]);
+
+  const deleteNotification = async (orderno: number): Promise<void> => {
+    try {
+      console.log('Deleting notification:', orderno);
+      const response = await axios.delete(`https://chai2go-backend.onrender.com/view/notifications/${orderno}`);
+      fetchNotifications();
+      // setButton(!button);
+      // console.log(button);
+      console.log('Deleted Notification:', response.data);
+    } catch (error) {
+      console.error('Error deleting notification:', (error as Error).message);
+    }
+  };
+
   return (
     <div className='hover:cursor-default'>
       {data && (
@@ -146,9 +208,11 @@ const Dashboard = () => {
           <h2 className='text-2xl text-white'> Invalid Access </h2>
           </div>
           </div>:
-          <div className='min-h-full'>
+          <div className='min-h-screen bg-slate-800'>
           {showClientModal && (
-            <ClientConfirmModal orderno={confirmedOrderNo} message={message} onClose={() => setShowClientModal(false)}/>)}
+            <ClientConfirmModal orderno={confirmedOrderNo} message={message} onClose={() => {setShowClientModal(false);
+              deleteNotification(confirmedOrderNo);}
+            }/>)}
           <div className="p-5 pb-10 flex justify-between text-white bg-gradient-to-b from-black to-slate-900 sm:sticky sm:top-0">
             <h2 className='m-1'>Welcome {data.username}</h2>
             <ul className='flex'>
